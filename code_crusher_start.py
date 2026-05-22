@@ -50,9 +50,13 @@ LOSE = -1
 #
 #  Returns: None -- the game board passed as a parameter is modified
 #
+#Parte2 ################################################
 def swap(board, r1, c1, r2, c2):
-
-  pass
+  piece1 = board[r1][c1]
+  piece2 = board[r2][c2]
+  board[r1][c1] = piece2
+  board[r2][c2] = piece1
+#########################################################
 
 #
 #  Modify the board to clear all occurences of a given piece, replacing them
