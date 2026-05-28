@@ -69,11 +69,57 @@ def swap(board, r1, c1, r2, c2):
 #  Returns: None -- the game board passed as a parameter is modified
 #
 def clearAll(board, sym):
-  pass
+  for r in range(len(board)):
+    for c in range(len(board[r])):
+      if board[r][c] == sym:
+        board[r][c] = EMPTY
 
 #
 #  Insert your implementations of vLineAt and hLineAt here
 #
+def hLineAt(board, r, c):
+  sym = board[r][c]
+  if sym == EMPTY:
+      return False
+  
+  # A peça está à esquerda do alinhamento
+  if c < len(board[r]) - 2:
+    if board[r][c+1] == sym and board[r][c+2] == sym:
+      return True
+  
+  # A peça está no meio do alinhamento
+  if c > 0 and c < len(board[r]) - 1:
+    if board[r][c-1] == sym and board[r][c+1] == sym:
+      return True
+  
+  # A peça está à direita do alinhamento
+  if c > 1:
+    if board[r][c-2] == sym and board[r][c-1] == sym:
+      return True
+      
+  return False
+
+def vLineAt(board, r, c):
+  sym = board[r][c]
+  if sym == EMPTY:
+      return False
+      
+  # A peça está no topo do alinhamento
+  if r < len(board) - 2:
+    if board[r+1][c] == sym and board[r+2][c] == sym:
+      return True
+      
+  # A peça está no meio do alinhamento
+  if r > 0 and r < len(board) - 1:
+    if board[r-1][c] == sym and board[r+1][c] == sym:
+      return True
+      
+  # A peça está na base do alinhamento
+  if r > 1:
+    if board[r-2][c] == sym and board[r-1][c] == sym:
+      return True
+      
+  return False
 
 #
 #  Report whether or not two pieces on the board can be swapped.  The function
@@ -88,7 +134,19 @@ def clearAll(board, sym):
 #  Returns: True if the proposed swap creates a line.  False otherwise.
 #
 def canSwap(board, r1, c1, r2, c2):
-  return True
+  # Troca temporariamente as peças
+  swap(board, r1, c1, r2, c2)
+  
+  # Verifica se houve alinhamento em alguma das posições
+  is_valid = hLineAt(board, r1, c1) or \
+             hLineAt(board, r2, c2) or \
+             vLineAt(board, r1, c1) or \
+             vLineAt(board, r2, c2)
+             
+  # Desfaz a troca para manter o estado do tabuleiro intacto
+  swap(board, r1, c1, r2, c2)
+  
+  return is_valid
 
 #
 #  Identify two adjacent positions on the board that can be swapped to 
